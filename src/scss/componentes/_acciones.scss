@@ -1,0 +1,22 @@
+@use '../base/variables' as *;
+@use '../base/mixins' as *;
+
+.acciones {
+    @include tablet {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    a {
+        color: $blanco;
+        display: block;
+        margin: calc($separacion / 2) 0;
+        text-align: center;
+
+        &:hover {
+            color: darken($blanco, 40%);
+        }
+    }
+
+}
