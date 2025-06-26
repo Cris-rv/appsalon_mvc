@@ -121,7 +121,7 @@ async function consultarAPI() {
 
     try {
         // #1 - Traemos la url que vamos a consumir para obtener la informacion como JSON
-        const url = '/api/servicios';
+        const url = `${location.origin}/api/servicios`;
         // #2 - Consumimos la url que nos retorna el status de respuesta
         const resultado = await fetch(url)
         // #3 - Treamos la informacion de la url que consumimos a manera de JSON de las muchas formas que nos provee fetch()
@@ -336,7 +336,7 @@ async function reservarCita() {
 
     try {
         // Peticion hacia la API
-        const url = '/api/citas';
+        const url = `${location.origin}/api/citas`;
         const respuesta = await fetch(url, {
             method: 'POST',
             body: datos

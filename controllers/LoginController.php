@@ -177,14 +177,13 @@ class LoginController {
 
                     // Generar un token unico
                     $usuario->crearToken();
-
-                    // Enviar el email
-                    $email = new Email($usuario->email, $usuario->nombre, $usuario->token);
-                    $email->enviarConfirmacion();
-
-                    // Crear el usuario
+                    // Crear el usuario - Primero guardamos para no perder accidentalmente el token al redireccionar al usuario
                     $resultado = $usuario->guardar();
+
+                    // Enviar el email                    
                     if($resultado) {
+                        $email = new Email($usuario->email, $usuario->nombre, $usuario->token);
+                        $email->enviarConfirmacion();
                         header('Location: /mensaje');
                     }
                     
