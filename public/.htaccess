@@ -1,10 +1,19 @@
-<IfModule mod_negotiation.c>
-    Options -MultiViews
-</IfModule>
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /
-    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Desactivar MultiViews para evitar conflicto con rutas similares
+    Options -MultiViews
+    
+    # Base correcta para subdirectorios (ajusta según tu instalación)
+    # Si accedes via https://tudominio.alwaysdata.net/appsalon_mvc/
+    RewriteBase /appsalon_mvc/
+    
+    # Redirigir todo a index.php manteniendo la ruta como parámetro
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+    
+    # Asegurar que los archivos estáticos se sirvan directamente
+    RewriteCond %{REQUEST_URI} \.(css|js|png|jpg|jpeg|gif|ico|webp|svg|woff2)$ [NC]
+    RewriteRule ^ - [L]
 </IfModule>
