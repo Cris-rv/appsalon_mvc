@@ -1,5 +1,8 @@
 <?php 
 
+echo "Estoy en el index";
+exit;
+
 require_once __DIR__ . '/../includes/app.php';
 
 use MVC\Router;
