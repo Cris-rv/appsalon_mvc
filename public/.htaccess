@@ -1,19 +1,18 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /
     
-    # Desactivar MultiViews para evitar conflicto con rutas similares
-    Options -MultiViews
+    # Regla para archivos estáticos
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^(.*)$ $1 [L]
     
-    # Base correcta para subdirectorios (ajusta según tu instalación)
-    # Si accedes via https://tudominio.alwaysdata.net/appsalon_mvc/
-    RewriteBase /appsalon_mvc/
-    
-    # Redirigir todo a index.php manteniendo la ruta como parámetro
+    # Regla para API/rutas backend
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+    RewriteRule ^api/(.*)$ index.php?url=$1 [QSA,L]
     
-    # Asegurar que los archivos estáticos se sirvan directamente
-    RewriteCond %{REQUEST_URI} \.(css|js|png|jpg|jpeg|gif|ico|webp|svg|woff2)$ [NC]
-    RewriteRule ^ - [L]
+    # Regla para frontend (SPA)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ /index.html [L]
 </IfModule>
