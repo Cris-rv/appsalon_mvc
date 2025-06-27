@@ -29,6 +29,8 @@ class Router
         // $auth = $_SESSION['login'] ?? null;
 
         $currentUrl = \strtok($_SERVER['REQUEST_URI'], '?') ?? '/';
+        $basePath = '/appsalon_mvc'; // Cambia esto según tu estructura en AlwaysData
+        $currentUrl = str_replace($basePath, '', $currentUrl);
         $method = $_SERVER['REQUEST_METHOD'];
 
         if ($method === 'GET') {
