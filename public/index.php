@@ -9,7 +9,7 @@ use Controllers\AdminController;
 use Controllers\LoginController;
 use Controllers\ServicioController;
 
-$router = new Router;
+$router = new Router();
 
 // Iniciar Sesion
 $router->get('/', [LoginController::class, 'login']);
