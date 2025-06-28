@@ -13,10 +13,13 @@
     align-items: center;
     label {
         flex: 0 0 10rem;
+        max-width: 100%;
     }
 
     input {
-        flex: 1;
+        flex: 1 1 auto; // Flexibilidad
+        min-width: 0; // Muy importante para evitar que se salga
+        width: 100%;
         border: none;
         padding: calc($separacion / 6);
         border-radius: 1rem;

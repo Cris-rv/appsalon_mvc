@@ -75,7 +75,7 @@ class ActiveRecord {
         $atributos = $this->atributos();
         $sanitizado = [];
         foreach($atributos as $key => $value ) {
-            $sanitizado[$key] = self::$db->escape_string($value);
+           $sanitizado[$key] = is_null($value) ? '' : self::$db->escape_string($value);
         }
         return $sanitizado;
     }
