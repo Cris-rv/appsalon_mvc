@@ -1,18 +1,8 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
-    
-    # Regla para archivos estáticos
-    RewriteCond %{REQUEST_FILENAME} -f
-    RewriteRule ^(.*)$ $1 [L]
-    
-    # Regla para API/rutas backend
+
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^api/(.*)$ index.php?url=$1 [QSA,L]
-    
-    # Regla para frontend (SPA)
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ /index.html [L]
+    RewriteRule ^ index.php [QSA,L]
 </IfModule>
