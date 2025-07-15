@@ -124,7 +124,7 @@ async function consultarAPI() {
         const url = `${location.origin}/api/servicios`;
         // #2 - Consumimos la url que nos retorna el status de respuesta
         const resultado = await fetch(url)
-        // #3 - Treamos la informacion de la url que consumimos a manera de JSON de las muchas formas que nos provee fetch()
+        // #3 - Treamos la informacion de la url que consumimos a manera de JSON mediante el 
         const servicios = await resultado.json();
         mostrarServicios(servicios);
 
@@ -169,7 +169,7 @@ function seleccionarServicio(servicio) {
     // Identificamos el elemento al que le damos click
     const divServicio = document.querySelector(`[data-id-servicio="${id}"]`);
 
-    // Comprobar si un servicio ya fue agregado o quitarlo iterando sobre el arreglo de servicios en el objeto de cita - cont {servicios} = cita;
+    // Comprobar si un servicio ya fue agregado o quitarlo iterando sobre el arreglo de servicios en el objeto de cita - const {servicios} = cita;
     if( servicios.some( agregado => agregado.id === servicio.id ) ) { // Retorna True o False si el id ya esta agregado
         // Eliminamos el seleccionado
         cita.servicios = servicios.filter( agregado => agregado.id !== servicio.id );
@@ -194,9 +194,20 @@ function seleccionarFecha() {
     const inputFecha = document.querySelector('#fecha');
     inputFecha.addEventListener('input', function(e) {
 
-        const dia = new Date(e.target.value).getUTCDay();
+        // Establecer fecha minima para mañana
+        const hoy = new Date();
+        hoy.setDate(hoy.getDate() + 1); // Mañana
+        const year = hoy.getFullYear();
+        const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+        const dia = String(hoy.getDate()).padStart(2, '0');
+        inputFecha.min = `${year}-${mes}-${dia}`;
+        
+        inputFecha.addEventListener('input', (e)=> {
+            const valorSeleccionado = new Date(e.target.value);
+            const diaSemana = valorSeleccionado.getUTCDay(); // 0 domingo, 6 Sabado
+        })
 
-        if( [6, 0].includes(dia) ) {
+        if( [6, 0].includes(diaSemana) ) {
             e.target.value = '';
             mostrarAlerta('Fines de semana no permitidos', 'error', '.formulario');
         } else {
@@ -293,14 +304,8 @@ function mostrarResumen() {
     nomberCliente.innerHTML = `<span>Nombre:</span> ${nombre}`;
 
     const fechaObj = new Date(fecha);
-    const mes = fechaObj.getMonth();
-    const dia = fechaObj.getDate() + 2;
-    const year = fechaObj.getFullYear();
-
-    const fechaUTC = new Date( Date.UTC(year, mes, dia) );
-
     const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const fechaFormateada = fechaUTC.toLocaleDateString('es-MX', opciones);
+    const fechaFormateada = fechaObj.toLocaleDateString('es-MX', opciones);
 
     const fechaCliente = document.createElement('P');
     fechaCliente.innerHTML = `<span>Fecha:</span> ${fechaFormateada}`;
